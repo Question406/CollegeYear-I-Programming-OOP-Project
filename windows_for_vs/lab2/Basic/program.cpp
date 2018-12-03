@@ -32,6 +32,7 @@ void Program::clear() {
 }
 
 void Program::addSourceLine(int lineNumber, string line) {
+
 	
     // Replace this stub with your own code
 	int t = lower_bound(Linenumber.begin(), Linenumber.end(), lineNumber) - Linenumber.begin();
@@ -59,7 +60,6 @@ void Program::removeSourceLine(int lineNumber) {
 	program.erase(iter);
 	int tmp = lower_bound(Linenumber.begin(), Linenumber.end(), lineNumber) - Linenumber.begin();
 	Linenumber.erase(Linenumber.begin() + tmp);
-    // Replace this stub with your own code
 }
 
 string Program::getSourceLine(int lineNumber) {

@@ -110,6 +110,8 @@ public:
 	bool is_statement(TokenScanner statement);
 };
 
+/* If_Then Class*/
+
 class If_Then : public Statement {
 private:
 	std::string content;
@@ -125,6 +127,8 @@ public:
 
 	bool is_statement(TokenScanner statement);
 };
+
+/* Quit Class*/
 
 class Quit : public Statement {
 private:
@@ -142,6 +146,8 @@ public:
 	bool is_statement(TokenScanner statement);
 };
 
+/* List Class*/
+
 class List : public Statement {
 private:
 	std::string content;
@@ -157,6 +163,8 @@ public:
 
 	bool is_statement(TokenScanner statement);
 };
+
+/* Goto Class*/
 
 class Goto : public Statement {
 private:

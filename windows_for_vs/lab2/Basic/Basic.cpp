@@ -63,21 +63,15 @@ void processLine(string line, Program & program, EvalState & state){
     scanner.scanNumbers();
     scanner.setInput(line);
 
-	Expression *exp = parseExp(scanner);
-	int t = exp->eval(state);
-	cout << t << endl;
-
 	string head = scanner.nextToken();
 	if (head == "") return;
 	int thead; //possible Line number
 	stringstream stream(head);
 	stream >> thead;
-	if (thead != 0) {
-		program.addSourceLine(thead, line);
+	if (thead != 0)	program.addSourceLine(thead, line);
+	else{
+			
 	}
-	else printf("Invalid line\n");
-
-
 
 	/*
 	cout << scanner.nextToken() << '\n';

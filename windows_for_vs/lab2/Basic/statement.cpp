@@ -23,11 +23,9 @@ Statement::~Statement() {
    /* Empty */
 }
 
-void Run::execute(EvalState & state){
-}
+/* Implementation of the Run class */
 
-StatementType Run::gettype() {
-	return RUN;
+void Run::execute(EvalState & state){
 }
 
 bool Run::is_statement(TokenScanner statement) {
@@ -35,3 +33,13 @@ bool Run::is_statement(TokenScanner statement) {
 	if (temp != "RUN" || statement.hasMoreTokens()) return 0;
 		else return 1;
 }
+
+/* Implementation of the If_Then class */
+
+
+/* Implementation of the Quit class */
+
+
+/* Implementation of the List class */
+
+/* Implementation of the Goto class */
