@@ -9,9 +9,10 @@
 #define _program_h
 
 #include <string>
-#include "statement.h"
-#include <map>
 #include <vector>
+#include "statement.h"
+
+#include "evalstate.h"
 using namespace std;
 
 /*
@@ -30,8 +31,8 @@ using namespace std;
 class Program {
 private:
 	vector<int> Linenumber;
-	vector<Statement> codes;
-	map<int, string> program;
+	vector<lineStatement> type;
+	map<int, string> codes;
 
 public:
 
@@ -42,7 +43,7 @@ public:
  * Constructs an empty BASIC program.
  */
 
-    Program();
+   Program();
 
 /*
  * Destructor: ~Program
@@ -51,7 +52,7 @@ public:
  * Frees any heap storage associated with the program.
  */
 
-	~Program();
+   ~Program();
 
 /*
  * Method: clear
@@ -60,7 +61,7 @@ public:
  * Removes all lines from the program.
  */
 
-    void clear();
+   void clear();
 
 /*
  * Method: addSourceLine
@@ -73,7 +74,7 @@ public:
  * program in the correct sequence.
  */
 
-    void addSourceLine(int lineNumber, std::string line);
+   void addSourceLine(int lineNumber, std::string line, lineStatement linetype);
 
 /*
  * Method: removeSourceLine
@@ -85,7 +86,7 @@ public:
  * performing any action.
  */
 
-    void removeSourceLine(int lineNumber);
+   void removeSourceLine(int lineNumber);
 
 /*
  * Method: getSourceLine
@@ -95,7 +96,7 @@ public:
  * If no such line exists, this method returns the empty string.
  */
 
-    std::string getSourceLine(int lineNumber);
+   std::string getSourceLine(int lineNumber);
 
 /*
  * Method: setParsedStatement
@@ -107,7 +108,7 @@ public:
  * exists, the memory for that statement is reclaimed.
  */
 
-    void setParsedStatement(int lineNumber, Statement *stmt);
+   void setParsedStatement(int lineNumber, Statement *stmt);
 
 /*
  * Method: getParsedStatement
@@ -118,7 +119,7 @@ public:
  * returns NULL.
  */
 
-    Statement *getParsedStatement(int lineNumber);
+   Statement *getParsedStatement(int lineNumber);
 
 /*
  * Method: getFirstLineNumber
@@ -128,7 +129,7 @@ public:
  * If the program has no lines, this method returns -1.
  */
 
-    int getFirstLineNumber();
+   int getFirstLineNumber();
 
 /*
  * Method: getNextLineNumber
@@ -139,16 +140,12 @@ public:
  * in the program.  If no more lines remain, this method returns -1.
  */
 
-    int getNextLineNumber(int lineNumber);
+   int getNextLineNumber(int lineNumber);
 
-/*
- * Method: printProgram
- * Usage: program.printProgram()
- * ------------------------------------------------------------
- * Print the Program on screen
-*/
-	void printProgram();
+   void listProgram();
 
+   void runProgram(EvalState &state);
+   
 };
 
 #endif

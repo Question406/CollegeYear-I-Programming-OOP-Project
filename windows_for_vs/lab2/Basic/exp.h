@@ -75,7 +75,7 @@ public:
  * the specified EvalState object.
  */
 
-   virtual int eval(EvalState & state) = 0;
+   virtual int eval(EvalState & state, bool run) = 0;
 
 /*
  * Method: toString
@@ -125,7 +125,7 @@ public:
  * base class and don't require additional documentation.
  */
 
-   virtual int eval(EvalState & state);
+   virtual int eval(EvalState & state, bool run);
    virtual std::string toString();
    virtual ExpressionType getType();
 
@@ -172,7 +172,7 @@ public:
  * base class and don't require additional documentation.
  */
 
-   virtual int eval(EvalState & state);
+   virtual int eval(EvalState & state, bool run);
    virtual std::string toString();
    virtual ExpressionType getType();
 
@@ -222,7 +222,7 @@ public:
  */
 
    virtual ~CompoundExp();
-   virtual int eval(EvalState & state);
+   virtual int eval(EvalState & state, bool run);
    virtual std::string toString();
    virtual ExpressionType getType();
 

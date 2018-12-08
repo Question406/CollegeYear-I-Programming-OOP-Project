@@ -24,7 +24,8 @@ using namespace std;
 Expression *parseExp(TokenScanner & scanner) {
    Expression *exp = readE(scanner);
    if (scanner.hasMoreTokens()) {
-      error("parseExp: Found extra token: " + scanner.nextToken());
+	   //error("parseExp: Found extra token: " + scanner.nextToken());
+	   error("SYNTAX ERROR");
    }
    return exp;
 }
@@ -62,16 +63,17 @@ Expression *readE(TokenScanner & scanner, int prec) {
  */
 
 Expression *readT(TokenScanner & scanner) {
-   string token = scanner.nextToken();
-   TokenType type = scanner.getTokenType(token);
-   if (type == WORD) return new IdentifierExp(token);
-   if (type == NUMBER) return new ConstantExp(stringToInteger(token));
-   if (token != "(") error("Illegal term in expression");
-   Expression *exp = readE(scanner);
-   if (scanner.nextToken() != ")") {
-      error("Unbalanced parentheses in expression");
-   }
-   return exp;
+    string token = scanner.nextToken();
+    TokenType type = scanner.getTokenType(token);
+    if (type == WORD) return new IdentifierExp(token);
+    if (type == NUMBER) return new ConstantExp(stringToInteger(token));
+	if (token != "(") error("SYNTAX ERROR)");//error("Illegal term in expression");
+	Expression *exp = readE(scanner);
+    if (scanner.nextToken() != ")") {
+        // error("Unbalanced parentheses in expression");
+		error("SYNTAX ERROR");
+    }
+    return exp;
 }
 
 /*

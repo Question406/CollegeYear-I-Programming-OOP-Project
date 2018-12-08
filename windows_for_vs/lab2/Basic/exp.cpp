@@ -39,7 +39,7 @@ ConstantExp::ConstantExp(int value) {
    this->value = value;
 }
 
-int ConstantExp::eval(EvalState & state) {
+int ConstantExp::eval(EvalState & state, bool run) {
    return value;
 }
 
@@ -52,7 +52,7 @@ ExpressionType ConstantExp::getType() {
 }
 
 int ConstantExp::getValue() {
-   return value;
+    return value;
 }
 
 /*
@@ -64,12 +64,17 @@ int ConstantExp::getValue() {
  */
 
 IdentifierExp::IdentifierExp(string name) {
-   this->name = name;
+    this->name = name;
 }
 
-int IdentifierExp::eval(EvalState & state) {
-   if (!state.isDefined(name)) error(name + " is undefined");
-   return state.getValue(name);
+int IdentifierExp::eval(EvalState & state, bool run) {
+	
+	if (run) {
+		//if (!state.isDefined(name)) error(name + " is undefined");
+		if (!state.isDefined(name)) error("VARIABLE NOT DEFINED");
+		return state.getValue(name);
+	}
+	else return 31;
 }
 
 string IdentifierExp::toString() {
@@ -111,22 +116,27 @@ CompoundExp::~CompoundExp() {
  * the assignment operator does not evaluate its left operand.
  */
 
-int CompoundExp::eval(EvalState & state) {
+int CompoundExp::eval(EvalState & state, bool run) {
    if (op == "=") {
       if (lhs->getType() != IDENTIFIER) {
-         error("Illegal variable in assignment");
+          //error("Illegal variable in assignment");
+		  error("SYNTAX ERROR");
       }
-      int val = rhs->eval(state);
+      int val = rhs->eval(state, run);
       state.setValue(((IdentifierExp *) lhs)->getName(), val);
       return val;
    }
-   int left = lhs->eval(state);
-   int right = rhs->eval(state);
+   int left = lhs->eval(state, run);
+   int right = rhs->eval(state, run);
    if (op == "+") return left + right;
    if (op == "-") return left - right;
    if (op == "*") return left * right;
-   if (op == "/") return left / right;
-   error("Illegal operator in expression");
+   if (op == "/") {
+	   if (right == 0) error("DIVIDE BY ZERO");
+	   else return left / right;
+   }
+   //error("Illegal operator in expression");
+   error("SYNTAX ERROR");
    return 0;
 }
 

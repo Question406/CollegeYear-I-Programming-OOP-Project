@@ -12,23 +12,9 @@
 #ifndef _statement_h
 #define _statement_h
 
-#include "evalstate.h"
-#include "exp.h"
-#include "../StanfordCPPLib/tokenscanner.h"
 
-#include <string>
-
-using namespace std;
-
- /*
-  * Type: StatementType
-  * --------------------
-  * This enumerated type is used to differentiate the different
-  * Statement types: RUN, IF_THEN, EXPRESSION, QUIT, LIST
-  */
-
-enum StatementType { RUN, IF_THEN, QUIT, LIST, GOTO};
-
+enum lineStatement{Invalidline, GOTO, REM, PRINT, IF, INPUT, END, LET, Clearline};
+//
 
 /*
  * Class: Statement
@@ -39,6 +25,9 @@ enum StatementType { RUN, IF_THEN, QUIT, LIST, GOTO};
  * for each of the statement and command types required for the
  * BASIC interpreter.
  */
+
+#include "evalstate.h"
+#include "exp.h"
 
 class Statement {
 
@@ -77,10 +66,7 @@ public:
 
    virtual void execute(EvalState & state) = 0;
 
-   virtual StatementType gettype() = 0;
-
-   virtual bool is_statement(TokenScanner state) = 0;
-
+   virtual bool is_statement(EvalState & state) = 0;
 };
 
 /*
@@ -94,92 +80,79 @@ public:
  * specify its own destructor method to free that memory.
  */
 
-class Run : public Statement{
+ /*-----------------------------------------------------*/
+
+class Let : public Statement {
 private:
-	std::string content;
+	string line;
+	string var;
+	int value;
+	bool run;
 
 public:
-	Run(string _content) { content = _content; };
-
-	~Run() { content = ""; };
-
+	Let(string _line, bool _run) : line(_line) , run(_run) {};
+	~Let() {};
 	void execute(EvalState & state);
-
-	StatementType gettype() { return RUN; };
-
-	bool is_statement(TokenScanner statement);
+	bool is_statement(EvalState & state);
 };
 
-/* If_Then Class*/
+/*-----------------------------------------------------*/
 
-class If_Then : public Statement {
+class Input : public Statement {
 private:
-	std::string content;
+	string var, line;
+private:
+	void getvar();
 
 public:
-	If_Then(string _content) : content(_content) {};
-
-	~If_Then() { content = ""; };
-
+	Input(string _line) : line(_line) {};
+	~Input() {};
 	void execute(EvalState & state);
-
-	StatementType gettype() { return IF_THEN; };
-
-	bool is_statement(TokenScanner statement);
+	bool is_statement(EvalState & state);
 };
 
-/* Quit Class*/
 
-class Quit : public Statement {
+/*-----------------------------------------------------*/
+class If : public Statement {
 private:
-	std::string content;
+	char if_op;
+	bool run;
+	string line;
+	string exp1, exp2;
+	int value1, value2, linenum, gotolinenum;
 
 public:
-	Quit(string _content) : content(_content) {};
-
-	~Quit() { content = ""; };
-
+	If(string _line, bool _run) : line(_line), run(_run) {};
+	~If() {};
 	void execute(EvalState & state);
-
-	StatementType gettype() { return QUIT; };
-
-	bool is_statement(TokenScanner statement);
+	bool is_statement(EvalState & state);
+	int getlinenum();
 };
 
-/* List Class*/
 
-class List : public Statement {
-private:
-	std::string content;
-
-public:
-	List(string _content) : content(_content) {};
-
-	~List() { content = ""; };
-
-	void execute(EvalState & state);
-
-	StatementType gettype() { return LIST; };
-
-	bool is_statement(TokenScanner statement);
-};
-
-/* Goto Class*/
-
+/*-----------------------------------------------------*/
 class Goto : public Statement {
 private:
-	std::string content;
-
+	string line;
+	int linenum;
 public:
-	Goto(string _content) : content(_content) {};
+	Goto(string _line) : line(_line) {};
+	~Goto() {};
+	void execute(EvalState & state) {};
+	bool is_statement(EvalState & state);
+	int getlinenum() { return linenum; }
+};
 
-	~Goto() { content = ""; };
-
+/*-----------------------------------------------------*/
+class Print : public Statement {
+private:
+	string line;
+	bool run;
+public:
+	Print(string _line, bool _run) : line(_line), run(_run) {};
+	~Print() {};
 	void execute(EvalState & state);
-
-	StatementType gettype() { return GOTO; };
-
-	bool is_statement(TokenScanner statement);
+	bool is_statement(EvalState & state) { return false; };
 };
 
 #endif

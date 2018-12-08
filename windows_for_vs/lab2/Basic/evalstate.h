@@ -11,7 +11,6 @@
 
 #include <string>
 #include "../StanfordCPPLib/map.h"
-#include<vector>
 
 /*
  * Class: EvalState
@@ -36,7 +35,7 @@ public:
  * Creates a new EvalState object with no variable bindings.
  */
 
-    EvalState();
+   EvalState();
 
 /*
  * Destructor: ~EvalState
@@ -45,7 +44,7 @@ public:
  * Frees all heap storage associated with this object.
  */
 
-    ~EvalState();
+   ~EvalState();
 
 /*
  * Method: setValue
@@ -54,7 +53,7 @@ public:
  * Sets the value associated with the specified var.
  */
 
-    void setValue(std::string var, int value);
+   void setValue(std::string var, int value);
 
 /*
  * Method: getValue
@@ -63,7 +62,7 @@ public:
  * Returns the value associated with the specified variable.
  */
 
-    int getValue(std::string var);
+   int getValue(std::string var);
 
 /*
  * Method: isDefined
@@ -72,20 +71,13 @@ public:
  * Returns true if the specified variable is defined.
  */
 
-    bool isDefined(std::string var);
+   bool isDefined(std::string var);
 
-/*
- * Method: clear
- * Usage: state.clear()
- * ---------------------------------------
- * clear the state for future revision
-*/
-
-	void clear();
+   void clear();
 
 private:
 
-    Map<std::string,int> symbolTable;
+   Map<std::string,int> symbolTable;
 
 };
 

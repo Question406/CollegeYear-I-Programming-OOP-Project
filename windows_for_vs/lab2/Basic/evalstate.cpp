@@ -15,25 +15,28 @@ using namespace std;
 /* Implementation of the EvalState class */
 
 EvalState::EvalState() {
-	/* Empty */
+   /* Empty */
 }
 
 EvalState::~EvalState() {
-   /* Empty */	
+   /* Empty */
 }
 
 void EvalState::setValue(string var, int value) {
-   symbolTable.put(var, value);
+	if (var == "LET" || var == "REM" || var == "IF" || var == "PRINT" || var == "INPUT" || var == "GOTO" || var == "END" || var == "LIST" || var == "RUN" || var == "QUIT" || var == "CLEAR" || var == "HELP")
+		error("SYNTAX ERROR");
+    symbolTable.put(var, value);
 }
 
 int EvalState::getValue(string var) {
-   return symbolTable.get(var);
+	 return symbolTable.get(var);
 }
 
 bool EvalState::isDefined(string var) {
-   return symbolTable.containsKey(var);
+    return symbolTable.containsKey(var);
 }
 
-void EvalState::clear() {
+void EvalState::clear()
+{
 	symbolTable.clear();
 }
